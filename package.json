@@ -2,6 +2,10 @@
   "name": "imatia-angular-avanzado-septiembre",
   "version": "14.0.0",
   "description": "Curso de Angular Avanzado para Imatia",
+  "homepage": "https://github.com/L-ab-s/imatia-angular_avanzado-septiembre",
+  "repository": {
+    "url": "https://github.com/L-ab-s/imatia-angular_avanzado-septiembre.git"
+  },
   "author": {
     "name": "Alberto Basalo",
     "email": "albertobasalo@hotmail.com",
