@@ -19,7 +19,7 @@ import { data } from "../data.repository";
       <h3>We work with {{ agencies.length }} agencies</h3>
       <ul>
         <li *ngFor="let agency of agencies">
-          <span [ngClass]="getClassForStatus(agency.status)">
+          <span [ngClass]="agency.status | lowercase">
             {{ agency.name }}
           </span>
           <span *ngIf="agency.range === 'Interplanetary'">🪐</span>
@@ -31,6 +31,5 @@ import { data } from "../data.repository";
 })
 export class AgenciesComponent {
   agencies = data.agencies;
-  getAgenciesCounter = () => this.agencies.length;
   getClassForStatus = (status: string) => status.toLowerCase();
 }
