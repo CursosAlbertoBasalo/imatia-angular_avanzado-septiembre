@@ -22,9 +22,16 @@ import { Agency } from "../models/agency.interface";
     ></app-list>
     <ng-template #agencyTemplate let-context>
       <span [ngClass]="byStatus(context.status)">{{ context.name }}</span>
-      <span *ngIf="context.range === 'Interplanetary'">🪐</span>
-      <span *ngIf="context.range === 'Orbital'">🌍</span>
+      <ng-container
+        *ngIf="
+          context.range === 'Interplanetary';
+          then interplanetary;
+          else orbital
+        "
+      ></ng-container>
     </ng-template>
+    <ng-template #interplanetary>🪐</ng-template>
+    <ng-template #orbital>🌍</ng-template>
   `,
 })
 export class AgenciesComponent {

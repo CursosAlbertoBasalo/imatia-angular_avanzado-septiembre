@@ -5,7 +5,7 @@ import { Component, Input, TemplateRef } from "@angular/core";
   template: `
     <article>
       <h3>{{ header }}</h3>
-      <ul *ngIf="data.length > 0">
+      <ul *ngIf="data.length > 0; else noContent">
         <li *ngFor="let item of data">
           <ng-container
             [ngTemplateOutlet]="itemTemplate"
@@ -13,7 +13,7 @@ import { Component, Input, TemplateRef } from "@angular/core";
           ></ng-container>
         </li>
       </ul>
-      <span *ngIf="data.length <= 0">🕳️ No data yet</span>
+      <ng-template #noContent>🕳️ No data yet</ng-template>
     </article>
   `,
   styles: [],
