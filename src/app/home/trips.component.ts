@@ -20,18 +20,24 @@ import { data } from "../data.repository";
     `,
   ],
   template: `
-    <app-list [header]="getHeader()" [data]="trips">
-      <li *ngFor="let trip of trips">
-        <span [ngClass]="byStatus(trip.status)">
-          {{ trip.destination }}
+    <app-list
+      [header]="getHeader()"
+      [data]="trips"
+      [itemTemplate]="tripTemplate"
+    >
+      <ng-template #tripTemplate let-context>
+        <span [ngClass]="byStatus(context.status)">
+          {{ context.destination }}
         </span>
-        <span>💸 {{ trip.flightPrice | currency }}</span>
-        <span>⤴️ {{ trip.startDate | date: "yyyy-MMM-dd" }}</span>
-        <span>⤵️ {{ trip.endDate | date: "yyyy-MMM-dd" }}</span>
-        <span [ngClass]="byPlaces(trip.places)">🧑🏼‍🚀 {{ trip.places }}</span>
-        <span *ngIf="trip.kind === 'WithStay'">🧳</span>
-        <span *ngIf="trip.kind === 'TripOnly'">🛰️</span>
-      </li>
+        <span>💸 {{ context.flightPrice | currency }}</span>
+        <span>⤴️ {{ context.startDate | date: "yyyy-MMM-dd" }}</span>
+        <span>⤵️ {{ context.endDate | date: "yyyy-MMM-dd" }}</span>
+        <span [ngClass]="byPlaces(context.places)">
+          🧑🏼‍🚀 {{ context.places }}
+        </span>
+        <span *ngIf="context.kind === 'WithStay'">🧳</span>
+        <span *ngIf="context.kind === 'TripOnly'">🛰️</span>
+      </ng-template>
     </app-list>
   `,
 })
