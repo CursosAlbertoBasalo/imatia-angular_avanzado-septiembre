@@ -2,6 +2,7 @@ import { Component, Input, TemplateRef } from "@angular/core";
 
 @Component({
   selector: "app-list",
+  styles: [],
   template: `
     <article>
       <h3>{{ header }}</h3>
@@ -16,7 +17,6 @@ import { Component, Input, TemplateRef } from "@angular/core";
       <ng-template #noContent>🕳️ No data yet</ng-template>
     </article>
   `,
-  styles: [],
 })
 export class ListComponent {
   @Input() header = "";
