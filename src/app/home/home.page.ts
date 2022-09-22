@@ -1,16 +1,16 @@
-import { Component, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
+import { data } from "../data.repository";
 
 @Component({
   selector: "app-home",
   template: `
-    <app-agencies></app-agencies>
+    <app-agencies [agencies]="dataHome.agencies"></app-agencies>
     <app-trips></app-trips>
-    <app-reloading></app-reloading>
+    <app-reloading (reload)="onReload()"></app-reloading>
   `,
   styles: [],
 })
-export class HomePage implements OnInit {
-  constructor() {}
-
-  ngOnInit(): void {}
+export class HomePage {
+  dataHome = data;
+  onReload = () => (this.dataHome = data);
 }
