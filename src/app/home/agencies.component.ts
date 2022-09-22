@@ -16,12 +16,10 @@ import { data } from "../data.repository";
   ],
   template: `
     <article>
-      <h3>We work with {{ agencies.length }} agencies</h3>
+      <h3>{{ getHeader() }}</h3>
       <ul>
         <li *ngFor="let agency of agencies">
-          <span [ngClass]="agency.status | lowercase">
-            {{ agency.name }}
-          </span>
+          <span [ngClass]="byStatus(agency.status)">{{ agency.name }}</span>
           <span *ngIf="agency.range === 'Interplanetary'">🪐</span>
           <span *ngIf="agency.range === 'Orbital'">🌍</span>
         </li>
@@ -31,5 +29,6 @@ import { data } from "../data.repository";
 })
 export class AgenciesComponent {
   agencies = data.agencies;
-  getClassForStatus = (status: string) => status.toLowerCase();
+  byStatus = (status: string) => status.toLowerCase();
+  getHeader = () => `We work with ${this.agencies.length} agencies`;
 }
