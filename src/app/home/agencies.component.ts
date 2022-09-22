@@ -15,16 +15,16 @@ import { Agency } from "../models/agency.interface";
     `,
   ],
   template: `
-    <article>
-      <h3>{{ getHeader() }}</h3>
-      <ul>
-        <li *ngFor="let agency of agencies">
-          <span [ngClass]="byStatus(agency.status)">{{ agency.name }}</span>
-          <span *ngIf="agency.range === 'Interplanetary'">🪐</span>
-          <span *ngIf="agency.range === 'Orbital'">🌍</span>
-        </li>
-      </ul>
-    </article>
+    <app-list
+      [header]="getHeader()"
+      [data]="agencies"
+      [itemTemplate]="agencyTemplate"
+    ></app-list>
+    <ng-template #agencyTemplate let-context>
+      <span [ngClass]="byStatus(context.status)">{{ context.name }}</span>
+      <span *ngIf="context.range === 'Interplanetary'">🪐</span>
+      <span *ngIf="context.range === 'Orbital'">🌍</span>
+    </ng-template>
   `,
 })
 export class AgenciesComponent {
