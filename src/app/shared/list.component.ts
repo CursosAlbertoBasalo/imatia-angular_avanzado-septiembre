@@ -12,6 +12,7 @@ import { Component, Input, TemplateRef } from "@angular/core";
             [ngTemplateOutletContext]="{ $implicit: item }"
           ></ng-container>
         </li>
+        <ng-content></ng-content>
       </ul>
       <ng-template #noContent>🕳️ No data yet</ng-template>
     </article>
@@ -21,5 +22,5 @@ import { Component, Input, TemplateRef } from "@angular/core";
 export class ListComponent {
   @Input() header = "";
   @Input() data: unknown[] = [];
-  @Input() itemTemplate!: TemplateRef<HTMLElement>;
+  @Input() public itemTemplate!: TemplateRef<HTMLElement>;
 }

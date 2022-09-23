@@ -1,5 +1,5 @@
-import { Component } from "@angular/core";
-import { data } from "../data.repository";
+import { Component, Input } from "@angular/core";
+import { Trip } from "../models/trip.interface";
 
 @Component({
   selector: "app-trips",
@@ -23,31 +23,28 @@ import { data } from "../data.repository";
     <app-list
       [header]="getHeader()"
       [data]="trips"
-      [itemTemplate]="tripTemplate"
-    >
-      <ng-template #tripTemplate let-context>
-        <span [ngClass]="byStatus(context.status)">
-          {{ context.destination }}
-        </span>
-        <span>💸 {{ context.flightPrice | currency }}</span>
-        <span>⤴️ {{ context.startDate | date: "yyyy-MMM-dd" }}</span>
-        <span>⤵️ {{ context.endDate | date: "yyyy-MMM-dd" }}</span>
-        <span [ngClass]="byPlaces(context.places)">
-          🧑🏼‍🚀 {{ context.places }}
-        </span>
-        <span *ngIf="context.kind === 'WithStay'">🧳</span>
-        <span *ngIf="context.kind === 'TripOnly'">🛰️</span>
-      </ng-template>
-    </app-list>
+      [itemTemplate]="tripListItem"
+    ></app-list>
+    <ng-template #tripListItem let-context>
+      <span [ngClass]="byStatus(context.status)">
+        {{ context.destination }}
+      </span>
+      <span>💸 {{ context.flightPrice | currency }}</span>
+      <span>⤴️ {{ context.startDate | date: "yyyy-MMM-dd" }}</span>
+      <span>⤵️ {{ context.endDate | date: "yyyy-MMM-dd" }}</span>
+      <span [ngClass]="byPlaces(context.places)">🧑🏼‍🚀 {{ context.places }}</span>
+      <span *ngIf="context.kind === 'WithStay'">🧳</span>
+      <span *ngIf="context.kind === 'TripOnly'">🛰️</span>
+    </ng-template>
   `,
 })
 export class TripsComponent {
-  trips = data.trips;
+  @Input() trips: Trip[] = [];
   getHeader = () => `Offering ${this.trips.length} trips`;
   byStatus = (status: string) => (status === "Confirmed" ? "green" : "orange");
-  byPlaces(places: number): string {
+  byPlaces = (places: number) => {
     if (places === 0) return "sold-out";
     if (places < 8) return "few-places";
     return "";
-  }
+  };
 }
