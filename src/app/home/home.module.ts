@@ -6,6 +6,7 @@ import { AgenciesComponent } from "./agencies.component";
 import { HomePage } from "./home.page";
 import { TripsComponent } from "./trips.component";
 import { AgencyStatusPipe } from './agency-status.pipe';
+import { AgenciesHeaderPipe } from './agencies-header.pipe';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { AgencyStatusPipe } from './agency-status.pipe';
     TripsComponent,
     HomePage,
     AgencyStatusPipe,
+    AgenciesHeaderPipe,
   ],
   imports: [CommonModule, SharedModule],
   exports: [

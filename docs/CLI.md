@@ -11,3 +11,10 @@ ng g m trips --route=trips --module=app
 # Shared components for lists
 ng g c shared/list --export
 ```
+
+## 2-Speed
+
+```bash
+ng g pipe home/agency-status
+ng g pipe home/agencies-header
+```
