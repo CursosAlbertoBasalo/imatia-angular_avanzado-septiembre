@@ -19,9 +19,9 @@ import { Agency } from "../models/agency.interface";
     <app-list
       [header]="getHeader()"
       [data]="agencies"
-      [itemTemplate]="agencyTemplate"
+      [itemTemplate]="agencyListItem"
     ></app-list>
-    <ng-template #agencyTemplate let-context>
+    <ng-template #agencyListItem let-context>
       <span [ngClass]="context.status | agencyStatus">{{ context.name }}</span>
       <ng-container
         *ngIf="
