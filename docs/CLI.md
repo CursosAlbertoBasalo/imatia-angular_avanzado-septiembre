@@ -1,20 +1,68 @@
 # Angular advanced
 
-## 1-Components
+> Command Line Interface
+
+## 0-root
 
 ```bash
-npm i
-npm start
+# Install Angular CLI globally
+npm i @angular/cli
+# Generate a new minimal application
+ng new angular_advanced --minimal=true --routing=true --style=css
+# 🧙🏼‍♂️ Alternatively, you can skip global installation by running
+npx @angular/cli new angular-intro --minimal=true --routing=true --style=css
+
+# Add a bit of style
+npm install @picocss/pico
+# angular.json : "./node_modules/@picocss/pico/css/pico.fluid.classless.min.css",
+
+npm run start
+
+# install a development server with a fake api
+npm i -D json-server json-server-auth
 npm run api
-# generating the lazy loading infrastructure
-ng g m trips --route=trips --module=app
-# Shared components for lists
+
+```
+
+## 1-Components
+
+- follow the container(parent, smart) / presenter(child, dumb) pattern
+- use template elements for dynamic views with context
+
+```bash
+# Shared components for lists of dynamic item content
 ng g c shared/list --export
+
+```
+
+- configure Angular.json for using the type flag
+
+```json
+"@schematics/angular:component": {
+  "inlineTemplate": true,
+  "inlineStyle": true,
+  "flat": true,
+  "skipTests": true,
+  "skipSelector": false,
+  "type": "Component"
+},
 ```
 
 ## 2-Speed
 
+- do not abuse of function calls (use custom pipes instead)
+
+- divide big components into several small ones
+
+- use onPush when possible
+  - change ref (using {... } [... ]), no mutate
+  - notify async changes `ChangeDetectorRef.markForCheck()`
+  - use | pipe async for http and observable data
+
 ```bash
+# use onPush at angular.json or per component
+ng g c your-component -c=onPush
+# use pipes
 ng g pipe home/agency-status
 ng g pipe home/agencies-header
 ```
