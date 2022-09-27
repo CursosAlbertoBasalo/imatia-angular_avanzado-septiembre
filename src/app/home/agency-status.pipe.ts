@@ -4,8 +4,7 @@ import { Pipe, PipeTransform } from "@angular/core";
   name: "agencyStatus",
 })
 export class AgencyStatusPipe implements PipeTransform {
-  transform(value: string, ...args: unknown[]): string {
-    console.log("pipe", value);
-    return value.toLowerCase();
+  transform(status: string, ...args: unknown[]): string {
+    return status.toLowerCase();
   }
 }

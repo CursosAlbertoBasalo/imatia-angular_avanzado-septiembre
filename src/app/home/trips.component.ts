@@ -1,4 +1,4 @@
-import { Component, Input, SimpleChanges } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { Trip } from "../models/trip.interface";
 
 @Component({
@@ -41,14 +41,8 @@ import { Trip } from "../models/trip.interface";
 export class TripsComponent {
   @Input() trips: Trip[] = [];
   getHeader() {
-    const header = `📞 Offering ${this.trips.length} trips`;
-    console.log("📞 Method call header", header);
+    const header = `Offering ${this.trips.length} trips`;
     return header;
-  }
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes["trips"]) {
-      console.log("⚡ change trips", this.trips.length);
-    }
   }
   byStatus = (status: string) => (status === "Confirmed" ? "green" : "orange");
   byPlaces = (places: number) => {
