@@ -2,6 +2,7 @@ import { Pipe, PipeTransform } from "@angular/core";
 
 @Pipe({
   name: "agenciesHeader",
+  pure: true,
 })
 export class AgenciesHeaderPipe implements PipeTransform {
   transform(agencies: any[], ...args: unknown[]): string {
