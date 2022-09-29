@@ -33,7 +33,17 @@ export class LoginPage implements OnInit, ComponentStatus {
   ngOnInit(): void {}
 
   onGoHomeClick() {
-    this.router.navigateByUrl("/");
+    // http://localhost:4214/(info:imatia)
+    // localhost:4214/(info:msg)
+    // http://localhost:4214/(info:Going%20home%20without%20logging%20in)
+    http: this.router.navigate([
+      {
+        outlets: {
+          primary: ["/"],
+          info: ["Going home without logging in"],
+        },
+      },
+    ]);
   }
   onLogInClick() {
     console.log("Simulated Login");

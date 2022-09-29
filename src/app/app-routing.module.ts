@@ -4,8 +4,14 @@ import { AboutPage } from "./about/about.page";
 import { HistoryComponent } from "./about/history.component";
 import { MissionComponent } from "./about/mission.component";
 import { HomePage } from "./home/home.page";
+import { InfoComponent } from "./info.component";
 
 const routes: Routes = [
+  {
+    outlet: "info",
+    path: ":msg",
+    component: InfoComponent,
+  },
   {
     path: "",
     title: "Only v 14",
