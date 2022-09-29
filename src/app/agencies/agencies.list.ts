@@ -6,7 +6,14 @@ import { Agency } from "../models/agency.interface";
   template: `
     <ul>
       <li *ngFor="let agency of agencies">
-        <a [routerLink]="agency.id">{{ agency.name }}</a>
+        <p>
+          <a [routerLink]="['/', 'agencies', 'view', agency.id]">
+            Visit : {{ agency.name }}
+          </a>
+        </p>
+        <p>
+          <a [routerLink]="['/', 'agencies', agency.id, 'trips']">View Trips</a>
+        </p>
       </li>
     </ul>
   `,

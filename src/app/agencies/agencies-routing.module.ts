@@ -6,7 +6,7 @@ import { AgenciesPage } from "./agencies.page";
 const routes: Routes = [
   { path: "", component: AgenciesPage },
   {
-    path: "new",
+    path: "agency/new",
     canActivate: [AuthenticatedGuard],
     canLoad: [AuthenticatedGuard],
     loadChildren: () =>
@@ -15,11 +15,15 @@ const routes: Routes = [
       ),
   },
   {
-    path: ":id",
+    path: "view/:id",
     loadChildren: () =>
       import("./agencies-view/agencies-view.module").then(
         (m) => m.AgenciesViewModule
       ),
+  },
+  {
+    path: ":id/trips",
+    component: AgenciesPage,
   },
 ];
 
