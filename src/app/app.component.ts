@@ -1,4 +1,7 @@
 import { Component } from "@angular/core";
+import { Title } from "@angular/platform-browser";
+import { NavigationEnd, Router } from "@angular/router";
+import { filter } from "rxjs";
 import { environment } from "src/environments/environment";
 
 @Component({
@@ -14,4 +17,18 @@ import { environment } from "src/environments/environment";
 })
 export class AppComponent {
   appTitle = environment.title;
+  constructor(router: Router, titleService: Title) {
+    router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe((event) => {
+        let route = router.routerState.root;
+        let routeTitle = "";
+        while (route.firstChild) {
+          route = route.firstChild;
+        }
+        routeTitle = route.snapshot.data["title"] || "";
+        console.log(routeTitle);
+        titleService.setTitle(routeTitle);
+      });
+  }
 }

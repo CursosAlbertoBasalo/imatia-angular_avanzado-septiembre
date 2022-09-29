@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
 import { Observable } from "rxjs";
 import { data } from "../data.repository";
 import { Trip } from "../models/trip.interface";
@@ -11,14 +12,16 @@ import { ApiService } from "../services/api.service";
     <app-agencies [agencies]="homeData.agencies"></app-agencies>
     <app-trips *ngIf="trips$ | async as trips" [trips]="trips"></app-trips>
     <app-reloading (reload)="onReload()"></app-reloading>
+    <h1>{{ lang }}</h1>
   `,
   styles: [],
 })
 export class HomePage {
   homeData = data;
   trips$!: Observable<Trip[]>;
-
-  constructor(private api: ApiService) {
+  lang = "";
+  constructor(private api: ApiService, route: ActivatedRoute) {
+    this.lang = route.snapshot.data["lang"] || "";
     this.refreshWithOnPush();
   }
 
