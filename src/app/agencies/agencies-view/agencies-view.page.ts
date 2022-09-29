@@ -1,42 +1,37 @@
-import { Component, OnInit } from "@angular/core";
+import { Component } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Agency } from "src/app/models/agency.interface";
 import { ApiService } from "src/app/services/api.service";
-import { HelperService } from "src/app/services/helper.service";
 
 @Component({
   selector: "app-agencies-view",
   template: `
+    <!-- <article *ngIf="agency$ | async as agency; else noData"> -->
     <article>
-      <h2>{{ agency?.name }}</h2>
+      <h2>{{ agency.name }}</h2>
       <pre> {{ agency | json }} </pre>
-      <button (click)="onRemove()">➖ Remove Agency</button>
+      <button (click)="onRemove(agency.id)">➖ Remove Agency</button>
     </article>
+    <!-- <ng-template #noData>no data yet</ng-template> -->
   `,
   styles: [],
 })
-export class AgenciesViewPage implements OnInit {
-  agencyId = "";
-  agency: Agency | undefined;
+export class AgenciesViewPage {
+  agency: Agency;
+  // agency$: Observable<Agency>;
 
   constructor(
-    private route: ActivatedRoute,
+    route: ActivatedRoute,
     private router: Router,
-    private helper: HelperService,
     private api: ApiService
-  ) {}
-
-  ngOnInit(): void {
-    this.agencyId = this.helper.getIdFromRoute(this.route);
-    // this.agency = this.data.getAgencyById(this.agencyId);
-    this.api.getAgencyById$(this.agencyId).subscribe({
-      next: (body) => (this.agency = body),
-    });
+  ) {
+    this.agency = route.snapshot.data["agency"];
+    // this.agency$ = this.api.getAgencyById$("space-y");
   }
 
-  onRemove() {
+  onRemove(agencyId: string) {
     this.api
-      .deleteAgency$(this.agencyId)
+      .deleteAgency$(agencyId)
       .subscribe(() => this.router.navigate(["agencies"]));
   }
 }

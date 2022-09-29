@@ -43,11 +43,16 @@ export class AuthenticatedGuard implements CanLoad, CanActivate {
 
   private canMove(): boolean | UrlTree {
     if (this.authentication.user.isAuthenticated) return true;
+    return this.redirectToLogin();
+  }
+  private redirectToLogin(): UrlTree {
+    const navigationPath = ["auth", "login"];
     const returnUrl = this.router
       .getCurrentNavigation()
       ?.extractedUrl.toString();
-    return this.router.createUrlTree(["auth", "login"], {
+    const navigationExtras = {
       queryParams: { returnUrl },
-    });
+    };
+    return this.router.createUrlTree(navigationPath, navigationExtras);
   }
 }
