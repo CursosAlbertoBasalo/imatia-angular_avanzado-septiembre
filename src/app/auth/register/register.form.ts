@@ -70,10 +70,12 @@ import { ValidatorsService } from "src/app/services/validators.service";
       <small *ngIf="mustShowMessage('form')">
         {{ getErrorMessage("form") }}
       </small>
-      <button [disabled]="formGroup.invalid" (click)="onRegisterClick()">
+      <button [disabled]="formGroup.errors" (click)="onRegisterClick()">
         Register
       </button>
     </form>
+    <pre>{{ formGroup.errors | json }}</pre>
+    <pre>{{ formGroup.invalid | json }}</pre>
   `,
   styles: [],
 })
@@ -94,7 +96,7 @@ export class RegisterForm {
   ) {}
 
   onRegisterClick() {
-    throw new Error("Method not implemented.");
+    console.log("Registering...", this.formGroup.value);
   }
 
   getControl(controlName: string): AbstractControl | null {

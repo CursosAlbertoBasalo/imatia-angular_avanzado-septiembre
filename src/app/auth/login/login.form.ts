@@ -71,7 +71,13 @@ export class LoginForm {
   }
 
   onLogInClick() {
-    console.log("onLogInClick", this.formGroup.value);
+    const rawCredentials = this.formGroup.value;
+    const credentials = {
+      email: (rawCredentials.email as any).email || rawCredentials.email,
+      password: rawCredentials.password,
+    };
+    console.log("credentials", credentials);
+    // this.logIn.emit(credentials);
   }
   onGoHomeClick() {}
 }
