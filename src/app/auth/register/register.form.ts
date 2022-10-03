@@ -6,7 +6,7 @@ import { ValidatorsService } from "src/app/services/validators.service";
   selector: "app-register-form",
   template: `
     <form [formGroup]="formGroup">
-      <div>
+      <!-- <div>
         <label for="name">Your name</label>
         <input
           id="name"
@@ -19,9 +19,8 @@ import { ValidatorsService } from "src/app/services/validators.service";
         <small *ngIf="mustShowMessage('name')">
           {{ getErrorMessage("name") }}
         </small>
-      </div>
-      <app-email-control formControlName="email"></app-email-control>
-      <div>
+      </div> -->
+      <!-- <div>
         <label for="password">Your password</label>
         <input
           id="password"
@@ -34,8 +33,8 @@ import { ValidatorsService } from "src/app/services/validators.service";
         <small *ngIf="mustShowMessage('password')">
           {{ getErrorMessage("password") }}
         </small>
-      </div>
-      <div>
+      </div> -->
+      <!-- <div>
         <label for="confirmPassword">Repeat Password</label>
         <input
           id="confirmPassword"
@@ -48,7 +47,26 @@ import { ValidatorsService } from "src/app/services/validators.service";
         <small *ngIf="mustShowMessage('confirmPassword')">
           {{ getErrorMessage("confirmPassword") }}
         </small>
-      </div>
+      </div> -->
+      <app-input-control
+        label="Your name"
+        formControlName="name"
+        type="text"
+        [control]="getControl('name')"
+      ></app-input-control>
+      <app-email-control formControlName="email"></app-email-control>
+      <app-input-control
+        label="Your password"
+        formControlName="password"
+        type="password"
+        [control]="getControl('password')"
+      ></app-input-control>
+      <app-input-control
+        label="Repeat password"
+        formControlName="confirmPassword"
+        type="password"
+        [control]="getControl('confirmPassword')"
+      ></app-input-control>
       <small *ngIf="mustShowMessage('form')">
         {{ getErrorMessage("form") }}
       </small>

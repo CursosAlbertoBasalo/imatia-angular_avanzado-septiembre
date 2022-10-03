@@ -46,15 +46,15 @@ export class EmailControl implements ControlValueAccessor {
     private validators: ValidatorsService
   ) {}
 
-  writeValue(email: any): void {
-    console.log("writeValue", email);
-    this.formGroup.setValue({ email }, { emitEvent: false });
-  }
   registerOnChange(changeCallback: any): void {
     this.formGroup.valueChanges.subscribe(changeCallback);
   }
   registerOnTouched(touchedCallback: any): void {
     this.touchedCallback = touchedCallback;
+  }
+  writeValue(email: any): void {
+    console.log("writeValue", email);
+    this.formGroup.setValue({ email }, { emitEvent: false });
   }
   setDisabledState?(isDisabled: boolean): void {
     if (isDisabled) {
