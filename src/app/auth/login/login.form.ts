@@ -23,11 +23,12 @@ import { ValidatorsService } from "src/app/services/validators.service";
       </div> -->
       <app-email-control formControlName="email"></app-email-control>
 
-      <input
+      <app-input-control
         type="password"
         formControlName="password"
-        placeholder="password"
-      />
+        label="Your password"
+        [control]="getControl('password')"
+      ></app-input-control>
       <button (click)="onLogInClick()">Log me in</button>
       <button (click)="onGoHomeClick()">Go Home</button>
     </form>
