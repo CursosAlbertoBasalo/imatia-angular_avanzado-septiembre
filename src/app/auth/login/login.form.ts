@@ -7,7 +7,7 @@ import { ValidatorsService } from "src/app/services/validators.service";
   selector: "app-login-form",
   template: `
     <form [formGroup]="formGroup">
-      <div>
+      <!-- <div>
         <label for="email">Your email address</label>
         <small *ngIf="mustShowError('email')">
           {{ getErrorMessage("email") }}
@@ -20,7 +20,9 @@ import { ValidatorsService } from "src/app/services/validators.service";
           placeholder="email address"
           [attr.aria-invalid]="hasError('email')"
         />
-      </div>
+      </div> -->
+      <app-email-control formControlName="email"></app-email-control>
+
       <input
         type="password"
         formControlName="password"
@@ -37,7 +39,10 @@ export class LoginForm {
   @Output() goHome = new EventEmitter();
   @Output() formDirty = new EventEmitter<boolean>();
 
-  emailControl = new FormControl("", this.validators.emailValidator);
+  emailControl = new FormControl(
+    "alberto@imatia.com",
+    this.validators.emailValidator
+  );
   passwordControl = new FormControl("", this.validators.passwordValidators);
 
   formGroup = this.formBuilder.group({
@@ -67,6 +72,8 @@ export class LoginForm {
     return this.validators.getErrorMessage(control);
   }
 
-  onLogInClick() {}
+  onLogInClick() {
+    console.log("onLogInClick", this.formGroup.value);
+  }
   onGoHomeClick() {}
 }

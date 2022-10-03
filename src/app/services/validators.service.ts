@@ -5,6 +5,7 @@ import { AbstractControl, ValidationErrors, Validators } from "@angular/forms";
   providedIn: "root",
 })
 export class ValidatorsService {
+  nameValidator = [Validators.required, Validators.minLength(3)];
   emailValidator = [Validators.required, Validators.email];
   passwordValidators = [
     Validators.required,
@@ -13,6 +14,22 @@ export class ValidatorsService {
   ];
 
   constructor() {}
+
+  passwordMatch(form: AbstractControl): ValidationErrors | null {
+    const password = form.get("password");
+    const confirmPassword = form.get("confirmPassword");
+    if (!password || !confirmPassword) {
+      return {
+        passwordMatch: "No passwords provided",
+      };
+    }
+    if (password.value !== confirmPassword.value) {
+      return {
+        passwordMatch: "Passwords do not match!",
+      };
+    }
+    return null;
+  }
 
   mustShowMessage(control: AbstractControl | null): boolean {
     if (!control) return false;
