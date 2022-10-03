@@ -11,7 +11,7 @@ import { ValidatorsService } from "../services/validators.service";
 @Component({
   selector: "app-email-control",
   template: `
-    <div>
+    <div [formGroup]="formGroup">
       <label for="email">Your email address</label>
       <small *ngIf="mustShowError('email')">
         {{ getErrorMessage("email") }}

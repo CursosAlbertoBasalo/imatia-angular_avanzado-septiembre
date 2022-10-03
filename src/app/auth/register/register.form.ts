@@ -20,20 +20,7 @@ import { ValidatorsService } from "src/app/services/validators.service";
           {{ getErrorMessage("name") }}
         </small>
       </div>
-      <div>
-        <label for="email">Your email address</label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          placeholder="Your email address"
-          formControlName="email"
-          [attr.aria-invalid]="hasError('email')"
-        />
-        <small *ngIf="mustShowMessage('name')">
-          {{ getErrorMessage("name") }}
-        </small>
-      </div>
+      <app-email-control formControlName="email"></app-email-control>
       <div>
         <label for="password">Your password</label>
         <input

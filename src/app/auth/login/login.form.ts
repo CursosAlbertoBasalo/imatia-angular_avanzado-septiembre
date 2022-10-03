@@ -39,10 +39,7 @@ export class LoginForm {
   @Output() goHome = new EventEmitter();
   @Output() formDirty = new EventEmitter<boolean>();
 
-  emailControl = new FormControl(
-    "alberto@imatia.com",
-    this.validators.emailValidator
-  );
+  emailControl = "alberto@imatia.com";
   passwordControl = new FormControl("", this.validators.passwordValidators);
 
   formGroup = this.formBuilder.group({
