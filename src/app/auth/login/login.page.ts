@@ -1,30 +1,24 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ComponentStatus } from "src/app/models/component-status.interface";
+import { Credentials } from "src/app/models/credentials.interface";
 import { AuthenticationService } from "../authentication.service";
 
 @Component({
   selector: "app-login",
   template: `
     <h2>🔐 Login with your account</h2>
-    <form [formGroup]="formGroup">
-      <input type="email" formControlName="email" placeholder="email" />
-      <input
-        type="password"
-        formControlName="password"
-        placeholder="password"
-      />
-      <button (click)="onLogInClick()">Log me in</button>
-      <button (click)="onGoHomeClick()">Go Home</button>
-    </form>
+    <app-login-form
+      (goHome)="onGoHome()"
+      (logIn)="onLogIn($event)"
+      (formDirty)="onFormDirty($event)"
+    ></app-login-form>
   `,
   styles: [],
 })
 export class LoginPage implements OnInit, ComponentStatus {
-  formGroup = this.formBuilder.group({ email: "", password: "" });
+  isFormDirty = false;
   constructor(
-    private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private authentication: AuthenticationService
@@ -32,11 +26,11 @@ export class LoginPage implements OnInit, ComponentStatus {
 
   ngOnInit(): void {}
 
-  onGoHomeClick() {
+  onGoHome() {
     // http://localhost:4214/(info:imatia)
     // localhost:4214/(info:msg)
     // http://localhost:4214/(info:Going%20home%20without%20logging%20in)
-    http: this.router.navigate([
+    this.router.navigate([
       {
         outlets: {
           primary: ["/"],
@@ -45,15 +39,18 @@ export class LoginPage implements OnInit, ComponentStatus {
       },
     ]);
   }
-  onLogInClick() {
-    console.log("Simulated Login");
-    this.formGroup.markAsPristine();
+  onLogIn(credentials: Credentials) {
+    console.log("Simulated Login", credentials);
+    this.isFormDirty = false;
     this.authentication.user.isAuthenticated = true;
     this.navigateBack();
   }
+  onFormDirty(isFormDirty: boolean) {
+    this.isFormDirty = isFormDirty;
+  }
 
   canDeactivate(): boolean {
-    if (!this.formGroup.dirty) return true;
+    if (!this.isFormDirty) return true;
     const response = window.confirm();
     return response;
   }
