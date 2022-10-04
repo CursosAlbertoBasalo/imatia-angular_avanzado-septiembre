@@ -13,6 +13,7 @@ import { InfoComponent } from "./info.component";
 import { LoggerBaseService } from "./services/logger-base.service";
 import { LoggerConsoleService } from "./services/logger-console.service";
 import { LoggerHttpService } from "./services/logger-http.service";
+import { LOG_APP_VERSION, LOG_LEVEL } from "./services/logger.tokens";
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, FooterComponent, InfoComponent],
@@ -27,14 +28,32 @@ import { LoggerHttpService } from "./services/logger-http.service";
     // {
     //   provide: LoggerBaseService,
     //   useClass: LoggerHttpService,
-    // },
+    // }
+    //,
+    // {
+    //   provide: LoggerBaseService,
+    //   deps: [HttpClient],
+    //   useFactory: (http: HttpClient) =>
+    //     environment.production
+    //       ? new LoggerHttpService(http)
+    //       : new LoggerConsoleService(),
+    // }
+    //,
+    {
+      provide: LOG_LEVEL,
+      useValue: "verbose",
+    },
+    {
+      provide: LOG_APP_VERSION,
+      useValue: 14,
+    },
     {
       provide: LoggerBaseService,
-      deps: [HttpClient],
-      useFactory: (http: HttpClient) =>
-        !environment.production
+      deps: [HttpClient, LOG_LEVEL],
+      useFactory: (http: HttpClient, logLevel: string) =>
+        environment.production
           ? new LoggerHttpService(http)
-          : new LoggerConsoleService(),
+          : new LoggerConsoleService(logLevel),
     },
   ],
   bootstrap: [AppComponent],

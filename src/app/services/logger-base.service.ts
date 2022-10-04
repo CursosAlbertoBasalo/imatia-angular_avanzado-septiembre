@@ -1,8 +1,10 @@
-import { Injectable } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
+import { LOG_APP_VERSION } from "./logger.tokens";
 
 @Injectable()
 export abstract class LoggerBaseService {
-  protected appVersion = "1.0.0";
+  protected logLevel = "minimal"; // "verbose"; // minimal
+  protected appVersion = inject(LOG_APP_VERSION);
   constructor() {}
 
   abstract log(message: string, payload?: any): void;
