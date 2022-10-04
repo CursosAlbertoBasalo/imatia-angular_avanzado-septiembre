@@ -4,7 +4,7 @@ import { AbstractControl, ValidationErrors, Validators } from "@angular/forms";
 @Injectable({
   providedIn: "root",
 })
-export class ValidatorsService {
+export class ValidationService {
   nameValidator = [Validators.required, Validators.minLength(3)];
   emailValidator = [Validators.required, Validators.email];
   passwordValidators = [

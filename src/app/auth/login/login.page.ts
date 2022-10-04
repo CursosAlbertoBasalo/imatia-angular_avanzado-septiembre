@@ -39,7 +39,7 @@ export class LoginPage implements OnInit, ComponentStatus {
       },
     ]);
   }
-  onLogIn(credentials: Credentials) {
+  onLogIn(credentials: Partial<Credentials>) {
     console.log("Simulated Login", credentials);
     this.isFormDirty = false;
     this.authentication.user.isAuthenticated = true;

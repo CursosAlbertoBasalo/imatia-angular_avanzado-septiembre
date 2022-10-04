@@ -4,17 +4,21 @@ import {
   ControlValueAccessor,
   FormBuilder,
   FormControl,
+  NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
+  ValidationErrors,
+  Validator,
 } from "@angular/forms";
-import { ValidatorsService } from "../services/validators.service";
+import { ValidationService } from "../services/validation.service";
+import { ControlBase } from "./control.base";
 
 @Component({
   selector: "app-email-control",
   template: `
     <div [formGroup]="formGroup">
       <label for="email">Your email address</label>
-      <small *ngIf="mustShowError('email')">
-        {{ getErrorMessage("email") }}
+      <small *ngIf="mustShowError()">
+        {{ getErrorMessage() }}
       </small>
       <input
         id="email"
@@ -22,7 +26,7 @@ import { ValidatorsService } from "../services/validators.service";
         type="email"
         placeholder="Your email address"
         formControlName="email"
-        [attr.aria-invalid]="hasError('email')"
+        [attr.aria-invalid]="hasError()"
         (blur)="touchedCallback()"
       />
     </div>
@@ -30,30 +34,47 @@ import { ValidatorsService } from "../services/validators.service";
   styles: [],
   providers: [
     { provide: NG_VALUE_ACCESSOR, useExisting: EmailControl, multi: true },
+    {
+      provide: NG_VALIDATORS,
+      useExisting: EmailControl,
+      multi: true,
+    },
   ],
 })
-export class EmailControl implements ControlValueAccessor {
+export class EmailControl
+  extends ControlBase
+  implements ControlValueAccessor, Validator
+{
   @Input() formControlName: string = "email";
 
-  emailControl = new FormControl("", this.validators.emailValidator);
+  override control = new FormControl("", this.validation.emailValidator);
   formGroup = this.formBuilder.group({
-    email: this.emailControl,
+    email: this.control,
   });
-  touchedCallback!: () => {};
+  touchedCallback!: () => void;
+  validatorChangeCallback!: () => void;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private validators: ValidatorsService
-  ) {}
+  constructor(private formBuilder: FormBuilder, validation: ValidationService) {
+    super(validation);
+  }
+
+  validate(control: AbstractControl<any, any>): ValidationErrors | null {
+    return this.control?.errors || null;
+  }
+  registerOnValidatorChange?(validatorChangeCallback: () => void): void {
+    this.validatorChangeCallback = validatorChangeCallback;
+  }
 
   registerOnChange(changeCallback: any): void {
-    this.formGroup.valueChanges.subscribe(changeCallback);
+    this.control.valueChanges.subscribe((value) => {
+      changeCallback(value);
+      this.validatorChangeCallback();
+    });
   }
   registerOnTouched(touchedCallback: any): void {
     this.touchedCallback = touchedCallback;
   }
   writeValue(email: any): void {
-    console.log("writeValue", email);
     this.formGroup.setValue({ email }, { emitEvent: false });
   }
   setDisabledState?(isDisabled: boolean): void {
@@ -66,18 +87,5 @@ export class EmailControl implements ControlValueAccessor {
 
   getControl(controlName: string): AbstractControl | null {
     return this.formGroup.get(controlName);
-  }
-  hasError(controlName: string) {
-    const control = this.getControl(controlName);
-    if (!control) return false;
-    return control.invalid;
-  }
-  mustShowError(controlName: string) {
-    const control = this.getControl(controlName);
-    return this.validators.mustShowMessage(control);
-  }
-  getErrorMessage(controlName: string) {
-    const control = this.getControl(controlName);
-    return this.validators.getErrorMessage(control);
   }
 }

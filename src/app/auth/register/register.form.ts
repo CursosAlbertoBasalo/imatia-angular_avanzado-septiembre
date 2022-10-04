@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
-import { AbstractControl, FormBuilder, FormControl } from "@angular/forms";
-import { ValidatorsService } from "src/app/services/validators.service";
+import { FormBuilder, FormControl } from "@angular/forms";
+import { ValidationService } from "src/app/services/validation.service";
+import { FormBase } from "src/app/shared/form.base";
 
 @Component({
   selector: "app-register-form",
@@ -67,20 +68,18 @@ import { ValidatorsService } from "src/app/services/validators.service";
         type="password"
         [control]="getControl('confirmPassword')"
       ></app-input-control>
-      <small *ngIf="mustShowMessage('form')">
+      <small *ngIf="mustShowError('form')">
         {{ getErrorMessage("form") }}
       </small>
-      <button [disabled]="formGroup.errors" (click)="onRegisterClick()">
+      <button [disabled]="formGroup.invalid" (click)="onRegisterClick()">
         Register
       </button>
     </form>
-    <pre>{{ formGroup.errors | json }}</pre>
-    <pre>{{ formGroup.invalid | json }}</pre>
   `,
   styles: [],
 })
-export class RegisterForm {
-  formGroup = this.formBuilder.group(
+export class RegisterForm extends FormBase {
+  override formGroup = this.formBuilder.group(
     {
       name: new FormControl("", this.validation.nameValidator),
       email: new FormControl("", this.validation.emailValidator),
@@ -90,34 +89,11 @@ export class RegisterForm {
     { validators: this.validation.passwordMatch }
   );
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private validation: ValidatorsService
-  ) {}
+  constructor(private formBuilder: FormBuilder, validation: ValidationService) {
+    super(validation);
+  }
 
   onRegisterClick() {
     console.log("Registering...", this.formGroup.value);
-  }
-
-  getControl(controlName: string): AbstractControl | null {
-    if (controlName === "form") {
-      return this.formGroup;
-    }
-    return this.formGroup.get(controlName);
-  }
-  hasError(controlName: string): boolean {
-    const control = this.getControl(controlName);
-    if (!control) return false;
-    return control.invalid;
-  }
-
-  mustShowMessage(controlName: string): boolean {
-    const control = this.getControl(controlName);
-    return this.validation.mustShowMessage(control);
-  }
-
-  getErrorMessage(controlName: string): string {
-    const control = this.getControl(controlName);
-    return this.validation.getErrorMessage(control);
   }
 }

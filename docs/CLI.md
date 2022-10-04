@@ -66,3 +66,57 @@ ng g c your-component -c=onPush
 ng g pipe home/agency-status
 ng g pipe home/agencies-header
 ```
+
+## 3-router
+
+- Can Load guard to prevent loading data before page load
+- Protect against unauthorized access, prevent downloading the lazy module
+
+```bash
+# Register the guard on the router with the loadChildren function
+# Redirect user to login, but with returnUrl as a parameter
+ng g g auth/authenticated --implements CanLoad
+
+# A service to store authentication status
+ng g s auth/authentication
+
+# A guard that checks if a component is dirty or can leave anyway
+ng g g shared/not-dirty --implements CanDeactivate
+
+# An interface to facilitate access to component status
+ng g interface models/component-status --type=interface
+
+# a component to be used as a nested route
+ng g c agencies/agency-trips
+
+# resolver dedicated to fetch data for a page
+ng g r agencies/agencies-view/agencies-view
+
+
+# ASYNC PARAMETERS (AGENCIES -> ?/SELECTED=AGENCY_ID )
+ng g c agencies/agency-trips
+
+# ROUTER EVENTS (LOGS, META, ... TITLE! on app.component)
+
+# NESTED ROUTES (ABOUT US -> HISTORY, MISSION...)
+ng g c about/history
+ng g c about/mission
+# AUXILIARY ROUTES (footer)
+ng g c info
+
+
+```
+
+## 4-Forms
+
+```
+ng g c auth/login/login --type=form
+ng g i models/credentials --type=interface
+ng g s services/validation
+
+ng g c shared/email --type=control --export
+ng g c shared/input --type=control --export
+
+ng g class shared/control --type=base
+ng g class shared/form --type=base
+```

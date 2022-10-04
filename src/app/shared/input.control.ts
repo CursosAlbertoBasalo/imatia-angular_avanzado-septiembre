@@ -4,13 +4,17 @@ import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR,
 } from "@angular/forms";
-import { ValidatorsService } from "../services/validators.service";
+import { ValidationService } from "../services/validation.service";
+import { ControlBase } from "./control.base";
 
 @Component({
   selector: "app-input-control",
   template: `
     <div>
       <label [for]="formControlName">{{ label | uppercase }}</label>
+      <small *ngIf="mustShowError()">
+        {{ getErrorMessage() }}
+      </small>
       <input
         [id]="formControlName"
         [name]="formControlName"
@@ -22,9 +26,6 @@ import { ValidatorsService } from "../services/validators.service";
         (blur)="touchedCallback()"
         (keyup)="onChange($event)"
       />
-      <small *ngIf="mustShowMessage()">
-        {{ getErrorMessage() }}
-      </small>
     </div>
   `,
   styles: [],
@@ -32,44 +33,36 @@ import { ValidatorsService } from "../services/validators.service";
     { provide: NG_VALUE_ACCESSOR, useExisting: InputControl, multi: true },
   ],
 })
-export class InputControl implements ControlValueAccessor {
+export class InputControl extends ControlBase implements ControlValueAccessor {
   @Input() label: string = "";
   @Input() formControlName: string = "";
   @Input() type: "text" | "password" | "number" = "text";
-  @Input() control!: AbstractControl | null;
+  @Input() override control!: AbstractControl | null;
 
   value: any;
   isDisabled: boolean = false;
   changeCallback!: (value: any) => void;
   touchedCallback!: () => void;
 
-  constructor(private validators: ValidatorsService) {}
+  constructor(validation: ValidationService) {
+    super(validation);
+  }
 
   onChange(event: any) {
     const value = event.target.value;
     this.changeCallback(value);
   }
 
-  registerOnChange(changeCallback: any): void {
-    this.changeCallback = changeCallback;
-  }
-  registerOnTouched(touchedCallback: any): void {
-    this.touchedCallback = touchedCallback;
-  }
   writeValue(value: any): void {
     this.value = value;
   }
+  registerOnChange(changeCallBack: (nv: any) => void): void {
+    this.changeCallback = changeCallBack;
+  }
+  registerOnTouched(touchedCallback: () => void): void {
+    this.touchedCallback = touchedCallback;
+  }
   setDisabledState?(isDisabled: boolean): void {
     this.isDisabled = isDisabled;
-  }
-
-  hasError(): boolean {
-    return this.control?.invalid || false;
-  }
-  mustShowMessage(): boolean {
-    return this.validators.mustShowMessage(this.control);
-  }
-  getErrorMessage(): string {
-    return this.validators.getErrorMessage(this.control);
   }
 }
