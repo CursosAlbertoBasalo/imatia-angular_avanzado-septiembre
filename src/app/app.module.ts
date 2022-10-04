@@ -1,6 +1,7 @@
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
+import { environment } from "src/environments/environment";
 import { AboutModule } from "./about/about.module";
 
 import { AppRoutingModule } from "./app-routing.module";
@@ -8,7 +9,10 @@ import { AppComponent } from "./app.component";
 import { FooterComponent } from "./footer.component";
 import { HeaderComponent } from "./header.component";
 import { HomeModule } from "./home/home.module";
-import { InfoComponent } from './info.component';
+import { InfoComponent } from "./info.component";
+import { LoggerBaseService } from "./services/logger-base.service";
+import { LoggerConsoleService } from "./services/logger-console.service";
+import { LoggerHttpService } from "./services/logger-http.service";
 
 @NgModule({
   declarations: [AppComponent, HeaderComponent, FooterComponent, InfoComponent],
@@ -19,7 +23,26 @@ import { InfoComponent } from './info.component';
     HomeModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    // {
+    //   provide: LoggerBaseService,
+    //   useClass: LoggerHttpService,
+    // },
+    {
+      provide: LoggerBaseService,
+      deps: [HttpClient],
+      useFactory: (http: HttpClient) =>
+        !environment.production
+          ? new LoggerHttpService(http)
+          : new LoggerConsoleService(),
+    },
+  ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(logger: LoggerBaseService) {
+    logger.log("AppModule constructor");
+    logger.warn("AppModule constructor", { data: "some data" });
+    logger.error("AppModule constructor", new Error("some error"));
+  }
+}
