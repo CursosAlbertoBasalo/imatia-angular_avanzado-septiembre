@@ -56,7 +56,7 @@ import { LOG_APP_VERSION, LOG_LEVEL } from "./services/logger.tokens";
       provide: LoggerBaseService,
       deps: [HttpClient, LOG_LEVEL],
       useFactory: (http: HttpClient, logLevel: string) =>
-        environment.production
+        !environment.production
           ? new LoggerHttpService(http)
           : new LoggerConsoleService(logLevel),
     },
