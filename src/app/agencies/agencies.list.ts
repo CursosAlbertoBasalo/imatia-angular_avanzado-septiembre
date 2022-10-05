@@ -5,6 +5,7 @@ import { Agency } from "../models/agency.interface";
   selector: "app-agencies-list",
   template: `
     <ul>
+      <h3>Listing {{ agencies.length }} agencies</h3>
       <li *ngFor="let agency of agencies">
         <p>
           <a [routerLink]="['/', 'agencies', 'view', agency.id]">

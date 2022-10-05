@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { map, Observable } from "rxjs";
+import { map, Observable, tap } from "rxjs";
 import { Agency } from "../models/agency.interface";
 import { ApiService } from "../services/api.service";
 @Component({
@@ -13,6 +13,7 @@ import { ApiService } from "../services/api.service";
         [agencies]="agencies"
       ></app-agencies-list>
     </article>
+    <strong>{{ errorMessage }}</strong>
     <pre>
 Show trips for Agency...
     </pre
@@ -25,8 +26,15 @@ Show trips for Agency...
 export class AgenciesPage {
   // agencies = this.data.getAgencies();
   // agencies: Agency[] = [];
-
-  agencies$: Observable<Agency[]> = this.api.getAgencies$();
+  errorMessage = "";
+  agencies$: Observable<Agency[]> = this.api.getAgencies$().pipe(
+    // catchError(() => of([])),
+    // catchError((e) => {
+    //   this.errorMessage = e.message;
+    //   return throwError(() => e);
+    // })
+    tap({ error: (e) => (this.errorMessage = e.message) })
+  );
 
   agency: string = "";
   agency$!: Observable<string>;
