@@ -12,9 +12,9 @@
           "inlineStyle": false,
           "flat": true,
           "skipTests": true,
-          "skipSelector": false,
+          "skipSelector": true,
           "style": "none",
-          "type": "Component"
+          "type": "Page"
         },
         "@schematics/angular:class": {
           "skipTests": true

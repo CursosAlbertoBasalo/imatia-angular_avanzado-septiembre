@@ -1,17 +1,12 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule } from "@angular/common";
+import { NgModule } from "@angular/core";
 
-import { TripsRoutingModule } from './trips-routing.module';
-import { TripsPage } from './trips.page';
-
+import { SharedModule } from "../shared/shared.module";
+import { TripsRoutingModule } from "./trips-routing.module";
+import { TripsPage } from "./trips.page";
 
 @NgModule({
-  declarations: [
-    TripsPage
-  ],
-  imports: [
-    CommonModule,
-    TripsRoutingModule
-  ]
+  declarations: [TripsPage],
+  imports: [CommonModule, TripsRoutingModule, SharedModule],
 })
-export class TripsModule { }
+export class TripsModule {}

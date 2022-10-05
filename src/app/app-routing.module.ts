@@ -64,6 +64,7 @@ const routes: Routes = [
     loadChildren: () =>
       import("./trips/trips.module").then((m) => m.TripsModule),
   },
+  { path: 'search', loadChildren: () => import('./search/search.module').then(m => m.SearchModule) },
   {
     path: "**",
     redirectTo: "",
