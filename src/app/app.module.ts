@@ -1,4 +1,8 @@
-import { HttpClient, HttpClientModule } from "@angular/common/http";
+import {
+  HttpClient,
+  HttpClientModule,
+  HTTP_INTERCEPTORS,
+} from "@angular/common/http";
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { environment } from "src/environments/environment";
@@ -10,6 +14,7 @@ import { FooterComponent } from "./footer.component";
 import { HeaderComponent } from "./header.component";
 import { HomeModule } from "./home/home.module";
 import { InfoComponent } from "./info.component";
+import { ErrorInterceptor } from "./services/error.interceptor";
 import { LoggerBaseService } from "./services/logger-base.service";
 import { LoggerConsoleService } from "./services/logger-console.service";
 import { LoggerHttpService } from "./services/logger-http.service";
@@ -55,6 +60,7 @@ import { LOG_APP_VERSION, LOG_LEVEL } from "./services/logger.tokens";
           ? new LoggerHttpService(http)
           : new LoggerConsoleService(logLevel),
     },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })

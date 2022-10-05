@@ -81,50 +81,5 @@
       "premiumFoodPrice": 1000
     }
   ],
-  "log-entries": [
-    {
-      "timestamp": "2022-10-04T17:47:12.755Z",
-      "message": "AppModule constructor",
-      "appVersion": "1.0.0",
-      "category": "log",
-      "id": 1
-    },
-    {
-      "timestamp": "2022-10-04T17:47:12.758Z",
-      "message": "AppModule constructor",
-      "appVersion": "1.0.0",
-      "category": "warn",
-      "id": 2
-    },
-    {
-      "timestamp": "2022-10-04T17:47:12.758Z",
-      "message": "AppModule constructor",
-      "appVersion": "1.0.0",
-      "category": "error",
-      "error": "some error",
-      "id": 3
-    },
-    {
-      "timestamp": "2022-10-04T17:53:06.660Z",
-      "message": "AppModule constructor",
-      "appVersion": "1.0.0",
-      "category": "log",
-      "id": 4
-    },
-    {
-      "timestamp": "2022-10-04T17:53:06.664Z",
-      "message": "AppModule constructor",
-      "appVersion": "1.0.0",
-      "category": "warn",
-      "id": 5
-    },
-    {
-      "timestamp": "2022-10-04T17:53:06.666Z",
-      "message": "AppModule constructor",
-      "appVersion": "1.0.0",
-      "category": "error",
-      "error": "some error",
-      "id": 6
-    }
-  ]
+  "log-entries": []
 }

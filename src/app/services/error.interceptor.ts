@@ -1,42 +1,47 @@
 import {
+  HttpErrorResponse,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
 } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { Router } from "@angular/router";
+import { catchError, Observable, throwError } from "rxjs";
+import { LoggerBaseService } from "./logger-base.service";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor() {}
+  constructor(private logger: LoggerBaseService, private router: Router) {}
 
   intercept(
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    return next.handle(request);
+    return next.handle(request).pipe(catchError(this.handleError.bind(this)));
+  }
+
+  private handleError(error: any) {
+    if (error instanceof HttpErrorResponse) {
+      this.processHttpError(error);
+    } else {
+      this.processApplicationError(error);
+    }
+    return throwError(() => error);
+  }
+
+  private processHttpError(error: HttpErrorResponse) {
+    const statusCode = error.status;
+    if (statusCode === 401) {
+      this.logger.warn("👮🏼‍♀️ Security error", error);
+      this.router.navigate(["/", "auth", "login"]);
+    }
+    if (statusCode >= 500) {
+      this.logger.error("👩🏼‍💼 Server error", error);
+    }
+    this.logger.error("🧑🏼‍💻 Client error", error);
+  }
+  private processApplicationError(error: Error) {
+    this.logger.error("😨 App Error", error);
   }
 }
-
-// export const HTTP_INTERCEPTORS = new InjectionToken<HttpInterceptor[]>('HTTP_INTERCEPTORS');
-
-// @NgModule({
-//   providers: [ { provide:HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true   } ]
-// })
-// class AppModule {
-// }
-
-// @Injectable()
-// class HttpClient{
-
-//   //interceptors : HttpInterceptor[];
-
-//   constructor(@Inject(HTTP_INTERCEPTORS) private interceptors : HttpInterceptor[]) {
-//   }
-//   get() {
-//     this.interceptors.forEach(interceptor => {
-//       interceptor.intercept();
-//     }
-//   }
-// }
