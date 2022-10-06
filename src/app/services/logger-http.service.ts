@@ -21,11 +21,11 @@ export class LoggerHttpService extends LoggerBaseService {
   log(message: string) {
     if (this.logLevel !== "verbose") return;
     const logEntry = this.createLogEntry(message, "log");
-    this.queueLogEntry(logEntry);
+    this.saveLogEntry(logEntry);
   }
   warn(message: string) {
     const logEntry = this.createLogEntry(message, "warn");
-    this.queueLogEntry(logEntry);
+    this.saveLogEntry(logEntry);
   }
   error(message: string, error: Error) {
     if (error instanceof HttpErrorResponse) {
@@ -34,7 +34,7 @@ export class LoggerHttpService extends LoggerBaseService {
     }
     const logEntry = this.createLogEntry(message, "error");
     logEntry.error = error.message;
-    this.queueLogEntry(logEntry);
+    this.saveLogEntry(logEntry);
   }
   private createLogEntry(message: string, category: string): any {
     return {
@@ -45,7 +45,7 @@ export class LoggerHttpService extends LoggerBaseService {
     };
   }
 
-  private queueLogEntry(logEntry: any) {
+  private saveLogEntry(logEntry: any) {
     this.logEntries$.next(logEntry);
   }
 
