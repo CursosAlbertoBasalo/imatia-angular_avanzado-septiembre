@@ -28,9 +28,11 @@ export class SearchControl implements AfterViewInit {
   @ViewChild("searchInput", { static: true }) searchInput!: ElementRef;
 
   ngAfterViewInit(): void {
-    this.createSearchableTerm$().subscribe((searchTerm: string) => {
-      this.search.emit(searchTerm);
-    });
+    this.createSearchableTerm$().subscribe(this.emitSearchTerm.bind(this));
+  }
+
+  private emitSearchTerm(searchTerm: string) {
+    this.search.emit(searchTerm);
   }
 
   private createSearchableTerm$() {
