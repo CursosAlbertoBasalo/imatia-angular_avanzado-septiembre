@@ -32,4 +32,8 @@ export class ApiService {
   public getTrips$(): Observable<Trip[]> {
     return this.http.get<Trip[]>(this.tripsUrl);
   }
+
+  getTripsByAgencyId$(agencyId: string): Observable<Trip[]> {
+    return this.http.get<Trip[]>(`${this.tripsUrl}?agencyId=${agencyId}`);
+  }
 }
