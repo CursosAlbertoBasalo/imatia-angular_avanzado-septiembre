@@ -18,35 +18,32 @@ import {
 
 @Component({
   selector: "app-search-control",
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <input #searchInput type="search" placeholder="Search" />
   `,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchControl implements AfterViewInit {
-  @Output() searchTerm = new EventEmitter<string>();
+  @Output() search = new EventEmitter<string>();
   @ViewChild("searchInput", { static: true }) searchInput!: ElementRef;
 
   ngAfterViewInit(): void {
     this.createSearchableTerm$().subscribe((searchTerm: string) => {
-      this.searchTerm.emit(searchTerm);
+      this.search.emit(searchTerm);
     });
   }
 
-  createSearchableTerm$() {
+  private createSearchableTerm$() {
     const searchSource$ = fromEvent(this.searchInput.nativeElement, "input");
-    return searchSource$.pipe(this.getPipe$());
+    return searchSource$.pipe(eventToSearchAdapter);
   }
-
-  getPipe$() {
-    return pipe(
-      debounceTime(500),
-      map(this.toValue),
-      filter(this.byLength),
-      distinctUntilChanged()
-    );
-  }
-
-  toValue = (event: any) => event.target.value;
-  byLength = (searchTerm: string) => searchTerm.length > 2;
 }
+
+const toValue = (event: any) => event.target.value;
+const byLength = (searchTerm: string) => searchTerm.length > 2;
+const eventToSearchAdapter = pipe(
+  debounceTime(500),
+  map(toValue),
+  filter(byLength),
+  distinctUntilChanged()
+);
