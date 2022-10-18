@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { map, Observable, of, tap } from "rxjs";
+import { map, Observable, of, switchMap, tap } from "rxjs";
 import { Trip } from "../models/trip.interface";
 import { ApiService } from "../services/api.service";
 
@@ -22,27 +22,29 @@ export class SearchPage {
       tap((searchTerm) => (this.searchTerm = searchTerm)),
       tap((searchTerm) => console.log("Searching for", this.searchTerm))
     );
-    // ! 2 this.onSearchTermClassical(searchTerm$);
-    // * 3 this.onSearchTermSwitched(searchTerm$);
+    // ! 2
+    // this.onSearchTermClassical(searchTerm$);
+    // * 3
+    this.onSearchTermSwitched(searchTerm$);
   }
   public onSearchOutput(searchTerm: string) {
     // ! 1 every response is processed
-    this.searchTerm = searchTerm;
-    console.log("Searching for", this.searchTerm);
-    this.trips$ = this.api.getTripsByQuery$(this.searchTerm);
+    // this.searchTerm = searchTerm;
+    // console.log("Searching for", this.searchTerm);
+    // this.trips$ = this.api.getTripsByQuery$(this.searchTerm);
   }
 
   private onSearchTermClassical(searchTerm$: Observable<string>) {
-    // ! 2 avoid nested subscription (sam as 1 and may leave open subscriptions)
-    // searchTerm$.subscribe({
-    //   next: (searchTerm) =>
-    //     (this.trips$ = this.api.getTripsByQuery$(searchTerm)),
-    // });
+    // ! 2 avoid nested subscription (same as 1 and may leave open subscriptions)
+    searchTerm$.subscribe({
+      next: (searchTerm) =>
+        (this.trips$ = this.api.getTripsByQuery$(searchTerm)),
+    });
   }
   private onSearchTermSwitched(searchTerm$: Observable<string>) {
     // * 3 switch map cancels pending requests and only repaints on latest results
-    // this.trips$ = searchTerm$.pipe(
-    //   switchMap((searchTerm) => this.api.getTripsByQuery$(searchTerm))
-    // );
+    this.trips$ = searchTerm$.pipe(
+      switchMap((searchTerm) => this.api.getTripsByQuery$(searchTerm))
+    );
   }
 }
