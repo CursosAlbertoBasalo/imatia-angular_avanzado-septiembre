@@ -53,11 +53,8 @@ ng g c shared/list --export
 - do not abuse of function calls (use custom pipes instead)
 
 - divide big components into several small ones
-
+- use | pipe async for http and observable data
 - use onPush when possible
-  - change ref (using {... } [... ]), no mutate
-  - notify async changes `ChangeDetectorRef.markForCheck()`
-  - use | pipe async for http and observable data
 
 ```bash
 # use onPush at angular.json or per component
@@ -109,7 +106,7 @@ ng g c info
 
 ## 4-Forms
 
-```
+```bash
 ng g c auth/login/login --type=form
 ng g i models/credentials --type=interface
 ng g s services/validation
@@ -119,4 +116,22 @@ ng g c shared/input --type=control --export
 
 ng g class shared/control --type=base
 ng g class shared/form --type=base
+```
+
+## 5-Injection
+
+```bash
+ng g s services/logger-base
+ng g s services/logger-console
+ng g s services/logger-http
+# services/logger.tokens.ts
+ng g interceptor services/error
+```
+
+## 6-RxJs
+
+```bash
+# with changes on Angular json
+ng g m trips --route=trips --module=app
+ng g c shared/search --type=control
 ```

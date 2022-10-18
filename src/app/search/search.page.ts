@@ -1,47 +1,47 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-} from "@angular/core";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { map, Observable, switchMap } from "rxjs";
+import { map, Observable, of, switchMap, tap } from "rxjs";
 import { Trip } from "../models/trip.interface";
 import { ApiService } from "../services/api.service";
 
 @Component({
   template: `
-    <app-search-control (search)="onSearch($event)"></app-search-control>
-    <h3>{{ searchTerm }}</h3>
+    <app-search-control (search)="onSearchOutput($event)"></app-search-control>
+    <pre> Searching for: {{ searchTerm }}</pre>
     <pre> {{ trips$ | async | json }}</pre>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchPage {
-  searchTerm: string = "";
-  trips$: Observable<Trip[]> = this.route.queryParamMap.pipe(
-    map((qpMap) => qpMap.get("searchTerm") || ""),
-    switchMap((searchTerm) => this.api.getTripsByQuery$(searchTerm))
-  );
+  searchTerm = "";
+  trips$: Observable<Trip[]> = of([]);
 
-  constructor(
-    private api: ApiService,
-    private route: ActivatedRoute,
-    private cdr: ChangeDetectorRef
-  ) {
-    // this.classicalSubscribe();
+  constructor(route: ActivatedRoute, private api: ApiService) {
+    const searchTerm$ = route.queryParamMap.pipe(
+      map((params) => params.get("q") || ""),
+      tap((searchTerm) => (this.searchTerm = searchTerm)),
+      tap((searchTerm) => console.log("Searching for", this.searchTerm))
+    );
+    // 2 this.onSearchTermClassical(searchTerm$);
+    this.onSearchTermSwitched(searchTerm$);
   }
-
-  classicalSubscribe() {
-    this.route.queryParamMap.subscribe((qpMap) => {
-      const searchTerm = qpMap.get("searchTerm") || "";
-      this.trips$ = this.api.getTripsByQuery$(searchTerm);
-      this.cdr.markForCheck();
+  public onSearchOutput(searchTerm: string) {
+    // ! 1 every response is processed
+    // this.searchTerm = searchTerm;
+    // console.log("Searching for", this.searchTerm);
+    // this.trips$ = this.api.getTripsByQuery$(this.searchTerm);
+  }
+  private onSearchTermClassical(searchTerm$: Observable<string>) {
+    // ! 2 avoid nested subscription (sam as 1 and may leave open subscriptions)
+    searchTerm$.subscribe({
+      next: (searchTerm) =>
+        (this.trips$ = this.api.getTripsByQuery$(searchTerm)),
     });
   }
-
-  onSearch(searchTerm: string) {
-    this.searchTerm = searchTerm;
-    console.log("Searching for", this.searchTerm);
-    this.trips$ = this.api.getTripsByQuery$(this.searchTerm);
+  private onSearchTermSwitched(searchTerm$: Observable<string>) {
+    // * switch map cancels pending requests and only repaints on latest results
+    this.trips$ = searchTerm$.pipe(
+      switchMap((searchTerm) => this.api.getTripsByQuery$(searchTerm))
+    );
   }
 }

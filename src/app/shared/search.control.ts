@@ -31,22 +31,27 @@ export class SearchControl implements AfterViewInit {
   constructor(private router: Router) {}
 
   ngAfterViewInit(): void {
-    this.createSearchableTerm$().subscribe(this.emitSearchTerm.bind(this));
-  }
-
-  private emitSearchTerm(searchTerm: string) {
-    // this.search.emit(searchTerm);
-    const urlTree = this.router.createUrlTree([], {
-      queryParams: { searchTerm },
-      queryParamsHandling: "merge",
-      preserveFragment: true,
-    });
-    this.router.navigateByUrl(urlTree);
+    const searchableTerm$ = this.createSearchableTerm$();
+    searchableTerm$.subscribe(this.onSearchTerm.bind(this));
   }
 
   private createSearchableTerm$() {
     const searchSource$ = fromEvent(this.searchInput.nativeElement, "input");
     return searchSource$.pipe(eventToSearchAdapter);
+  }
+
+  private onSearchTerm(searchTerm: string) {
+    this.search.emit(searchTerm); // emit to parent using @Output
+    this.useUrlSearchTerm(searchTerm); // change url query params
+  }
+
+  private useUrlSearchTerm(searchTerm: string) {
+    const urlTree = this.router.createUrlTree([], {
+      queryParams: { q: searchTerm },
+      queryParamsHandling: "merge",
+      preserveFragment: true,
+    });
+    this.router.navigateByUrl(urlTree);
   }
 }
 
