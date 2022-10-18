@@ -41,8 +41,8 @@ export class SearchControl implements AfterViewInit {
   }
 
   private onSearchTerm(searchTerm: string) {
-    this.search.emit(searchTerm); // emit to parent using @Output
-    this.useUrlSearchTerm(searchTerm); // change url query params
+    this.search.emit(searchTerm); // ! emit to parent using @Output
+    this.useUrlSearchTerm(searchTerm); // * change url query params
   }
 
   private useUrlSearchTerm(searchTerm: string) {
