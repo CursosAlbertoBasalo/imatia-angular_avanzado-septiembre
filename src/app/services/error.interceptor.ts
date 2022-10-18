@@ -6,13 +6,12 @@ import {
   HttpRequest,
 } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Router } from "@angular/router";
 import { catchError, Observable, throwError } from "rxjs";
-import { LoggerBaseService } from "./logger-base.service";
+import { ErrorMediatorService } from "./error-mediator.service";
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private logger: LoggerBaseService, private router: Router) {}
+  constructor(private errorMediator: ErrorMediatorService) {}
 
   intercept(
     request: HttpRequest<unknown>,
@@ -26,8 +25,6 @@ export class ErrorInterceptor implements HttpInterceptor {
   private handleError(error: any) {
     if (error instanceof HttpErrorResponse) {
       this.processHttpError(error);
-    } else {
-      this.processApplicationError(error);
     }
     return throwError(() => error);
   }
@@ -35,15 +32,25 @@ export class ErrorInterceptor implements HttpInterceptor {
   private processHttpError(error: HttpErrorResponse) {
     const statusCode = error.status;
     if (statusCode === 401) {
-      this.logger.warn("👮🏼‍♀️ Security error", error);
-      this.router.navigate(["/", "auth", "login"]);
+      this.errorMediator.error$.next({
+        category: "auth",
+        message: "👮🏼‍♀️ Security error",
+        error,
+      });
+      return;
     }
     if (statusCode >= 500) {
-      this.logger.error("👩🏼‍💼 Server error", error);
+      this.errorMediator.error$.next({
+        category: "server",
+        message: "👩🏼‍💼 Server error",
+        error,
+      });
+      return;
     }
-    this.logger.error("🧑🏼‍💻 Client error", error);
-  }
-  private processApplicationError(error: Error) {
-    this.logger.error("😨 App Error", error);
+    this.errorMediator.error$.next({
+      category: "client",
+      message: "🧑🏼‍💻 Client error",
+      error,
+    });
   }
 }
