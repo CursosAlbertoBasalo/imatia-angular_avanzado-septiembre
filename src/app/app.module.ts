@@ -8,28 +8,45 @@ import { BrowserModule } from "@angular/platform-browser";
 import { environment } from "src/environments/environment";
 import { AboutModule } from "./about/about.module";
 
+import { EffectsModule } from "@ngrx/effects";
+import { StoreRouterConnectingModule } from "@ngrx/router-store";
+import { StoreModule } from "@ngrx/store";
+import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { FooterComponent } from "./footer.component";
 import { HeaderComponent } from "./header.component";
 import { HomeModule } from "./home/home.module";
 import { InfoComponent } from "./info.component";
+import { NotificationsControl } from "./notifications.control";
 import { ErrorInterceptor } from "./services/error.interceptor";
 import { GlobalErrorHandler } from "./services/global-error.handler";
 import { LoggerBaseService } from "./services/logger-base.service";
 import { LoggerConsoleService } from "./services/logger-console.service";
 import { LoggerHttpService } from "./services/logger-http.service";
 import { LOG_APP_VERSION, LOG_LEVEL } from "./services/logger.tokens";
-import { NotificationsControl } from './notifications.control';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent, FooterComponent, InfoComponent, NotificationsControl],
+  declarations: [
+    AppComponent,
+    HeaderComponent,
+    FooterComponent,
+    InfoComponent,
+    NotificationsControl,
+  ],
   imports: [
     BrowserModule,
     AboutModule,
     AppRoutingModule,
     HomeModule,
     HttpClientModule,
+    StoreModule.forRoot({}, {}),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
+    EffectsModule.forRoot([]),
+    StoreRouterConnectingModule.forRoot(),
   ],
   providers: [
     // {
