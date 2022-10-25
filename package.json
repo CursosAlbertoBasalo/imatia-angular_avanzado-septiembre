@@ -16,7 +16,8 @@
     "start": "ng serve -o --port=4214",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "api": "json-server-auth ./database/db.json -r ./database/routes.json"
+    "api": "json-server-auth ./database/db.json -r ./database/routes.json",
+    "pwa": "npm run build && npx http-server -o -p 8214 -c-1 dist/imatia-angular_avanzado-septiembre"
   },
   "private": true,
   "dependencies": {

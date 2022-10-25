@@ -81,5 +81,27 @@
       "premiumFoodPrice": 1000
     }
   ],
-  "log-entries": []
+  "log-entries": [
+    {
+      "timestamp": "2022-10-25T18:15:07.651Z",
+      "message": "AppModule constructor",
+      "appVersion": 14,
+      "category": "log",
+      "id": 1
+    },
+    {
+      "timestamp": "2022-10-25T18:17:32.801Z",
+      "message": "AppModule constructor",
+      "appVersion": 14,
+      "category": "log",
+      "id": 2
+    },
+    {
+      "timestamp": "2022-10-25T18:18:22.575Z",
+      "message": "AppModule constructor",
+      "appVersion": 14,
+      "category": "log",
+      "id": 3
+    }
+  ]
 }

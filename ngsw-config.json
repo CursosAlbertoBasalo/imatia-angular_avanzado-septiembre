@@ -4,7 +4,6 @@
   "assetGroups": [
     {
       "name": "app",
-      "installMode": "prefetch",
       "resources": {
         "files": [
           "/favicon.ico",
@@ -13,7 +12,9 @@
           "/*.css",
           "/*.js"
         ]
-      }
+      },
+      "installMode": "prefetch",
+      "updateMode": "prefetch"
     },
     {
       "name": "assets",
@@ -26,5 +27,6 @@
         ]
       }
     }
-  ]
+  ],
+  "dataGroups": []
 }
