@@ -9,7 +9,7 @@ import { environment } from "src/environments/environment";
 import { AboutModule } from "./about/about.module";
 
 import { EffectsModule } from "@ngrx/effects";
-import { StoreRouterConnectingModule } from "@ngrx/router-store";
+import { routerReducer, StoreRouterConnectingModule } from "@ngrx/router-store";
 import { StoreModule } from "@ngrx/store";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import { AppRoutingModule } from "./app-routing.module";
@@ -40,7 +40,7 @@ import { LOG_APP_VERSION, LOG_LEVEL } from "./services/logger.tokens";
     AppRoutingModule,
     HomeModule,
     HttpClientModule,
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot({ router: routerReducer }),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
       logOnly: environment.production,
