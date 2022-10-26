@@ -123,6 +123,174 @@
       "appVersion": 14,
       "category": "log",
       "id": 6
+    },
+    {
+      "timestamp": "2022-10-26T16:51:33.163Z",
+      "message": "AppModule constructor",
+      "appVersion": 14,
+      "category": "log",
+      "id": 7
+    },
+    {
+      "timestamp": "2022-10-26T16:52:26.332Z",
+      "message": "AppModule constructor",
+      "appVersion": 14,
+      "category": "log",
+      "id": 8
+    },
+    {
+      "timestamp": "2022-10-26T16:52:56.329Z",
+      "message": "AppModule constructor",
+      "appVersion": 14,
+      "category": "log",
+      "id": 9
+    },
+    {
+      "timestamp": "2022-10-26T16:56:48.104Z",
+      "message": "AppModule constructor",
+      "appVersion": 14,
+      "category": "log",
+      "id": 10
+    },
+    {
+      "timestamp": "2022-10-26T16:57:09.296Z",
+      "message": "AppModule constructor",
+      "appVersion": 14,
+      "category": "log",
+      "id": 11
+    },
+    {
+      "timestamp": "2022-10-26T16:57:56.206Z",
+      "message": "AppModule constructor",
+      "appVersion": 14,
+      "category": "log",
+      "id": 12
+    },
+    {
+      "timestamp": "2022-10-26T16:58:01.563Z",
+      "message": "😨 App Error",
+      "appVersion": 14,
+      "category": "error",
+      "error": "Failed to execute 'setAttribute' on 'Element': ')' is not a valid attribute name.",
+      "id": 13
+    },
+    {
+      "timestamp": "2022-10-26T16:58:01.564Z",
+      "message": "😨 App Error",
+      "appVersion": 14,
+      "category": "error",
+      "error": "Failed to execute 'setAttribute' on 'Element': ')' is not a valid attribute name.",
+      "id": 14
+    },
+    {
+      "timestamp": "2022-10-26T16:58:47.048Z",
+      "message": "AppModule constructor",
+      "appVersion": 14,
+      "category": "log",
+      "id": 15
+    },
+    {
+      "timestamp": "2022-10-26T16:59:28.093Z",
+      "message": "AppModule constructor",
+      "appVersion": 14,
+      "category": "log",
+      "id": 16
+    },
+    {
+      "timestamp": "2022-10-26T16:59:33.426Z",
+      "message": "😨 App Error",
+      "appVersion": 14,
+      "category": "error",
+      "error": "Failed to execute 'setAttribute' on 'Element': ')' is not a valid attribute name.",
+      "id": 17
+    },
+    {
+      "timestamp": "2022-10-26T16:59:33.427Z",
+      "message": "😨 App Error",
+      "appVersion": 14,
+      "category": "error",
+      "error": "Failed to execute 'setAttribute' on 'Element': ')' is not a valid attribute name.",
+      "id": 18
+    },
+    {
+      "timestamp": "2022-10-26T17:02:20.983Z",
+      "message": "AppModule constructor",
+      "appVersion": 14,
+      "category": "log",
+      "id": 19
+    },
+    {
+      "timestamp": "2022-10-26T17:02:26.340Z",
+      "message": "😨 App Error",
+      "appVersion": 14,
+      "category": "error",
+      "error": "Failed to execute 'setAttribute' on 'Element': ')' is not a valid attribute name.",
+      "id": 20
+    },
+    {
+      "timestamp": "2022-10-26T17:02:27.679Z",
+      "message": "AppModule constructor",
+      "appVersion": 14,
+      "category": "log",
+      "id": 21
+    },
+    {
+      "timestamp": "2022-10-26T17:03:39.601Z",
+      "message": "AppModule constructor",
+      "appVersion": 14,
+      "category": "log",
+      "id": 22
+    },
+    {
+      "timestamp": "2022-10-26T17:03:45.014Z",
+      "message": "😨 App Error",
+      "appVersion": 14,
+      "category": "error",
+      "error": "Failed to execute 'setAttribute' on 'Element': ')' is not a valid attribute name.",
+      "id": 23
+    },
+    {
+      "timestamp": "2022-10-26T17:03:45.014Z",
+      "message": "😨 App Error",
+      "appVersion": 14,
+      "category": "error",
+      "error": "Failed to execute 'setAttribute' on 'Element': ')' is not a valid attribute name.",
+      "id": 24
+    },
+    {
+      "timestamp": "2022-10-26T17:03:49.309Z",
+      "message": "AppModule constructor",
+      "appVersion": 14,
+      "category": "log",
+      "id": 25
+    },
+    {
+      "timestamp": "2022-10-26T17:04:23.450Z",
+      "message": "AppModule constructor",
+      "appVersion": 14,
+      "category": "log",
+      "id": 26
+    },
+    {
+      "timestamp": "2022-10-26T17:04:35.366Z",
+      "message": "AppModule constructor",
+      "appVersion": 14,
+      "category": "log",
+      "id": 27
+    },
+    {
+      "timestamp": "2022-10-26T17:05:13.823Z",
+      "message": "AppModule constructor",
+      "appVersion": 14,
+      "category": "log",
+      "id": 28
+    },
+    {
+      "timestamp": "2022-10-26T17:05:22.779Z",
+      "message": "AppModule constructor",
+      "appVersion": 14,
+      "category": "log",
+      "id": 29
     }
   ]
 }

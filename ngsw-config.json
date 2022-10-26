@@ -1,6 +1,10 @@
 {
   "$schema": "./node_modules/@angular/service-worker/config/schema.json",
   "index": "/index.html",
+  "appData": {
+    "version": "19:04",
+    "description": "Ahora sí con intervalo, la última"
+  },
   "assetGroups": [
     {
       "name": "app",
@@ -40,7 +44,7 @@
     },
     {
       "name": "dynamic-network-first",
-      "urls": ["http://localhost:3000/trips"],
+      "urls": ["http://localhost:3000/trips/**"],
       "cacheConfig": {
         "strategy": "freshness",
         "timeout": "10s",
