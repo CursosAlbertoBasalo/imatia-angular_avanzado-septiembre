@@ -128,10 +128,94 @@ ng g s services/logger-http
 ng g interceptor services/error
 ```
 
-## 6-RxJs
+## 7-Redux
+
+```
+ng g s services/error-mediator
+ng g class services/global-error --type=handler
+ng g c notifications --type=control
+ng g class auth/authentication --type=store
+```
+
+## 8-NgRx
 
 ```bash
-# with changes on Angular json
-ng g m trips --route=trips --module=app
-ng g c shared/search --type=control
+ng add @ngrx/store@latest
+ng add @ngrx/schematics@latest --defaultCollection
+ng add @ngrx/store-devtools@latest
+ng add @ngrx/effects@latest
+ng g m future --route=future -m=app
+ng g store Future --module future/future.module.ts --state-path=future/state  --state-interface=FutureState
+ng g action future/state/Trips --prefix=load --api=true
+# createReducer(initialState, on(action, reducerFunction))
+# ng g reducer future/state/Trips --prefix=load --api=true
+# reducer functions on reducers file
+ng g selector future/state/Trips  --skip-tests
+ng g effect future/state/Trips --skip-tests --api=true -m future/future.module.ts --prefix=load
+ng add @ngrx/router-store@latest
+```
+
+## 9-PWA
+
+```bash
+npm i
+# commit after each command
+ng update
+ng update @angular/cli
+ng update @angular/core
+ng add @angular/pwa@latest
+npm install pwa-asset-generator -D
+# remove fav.ico and icons from assets folder
+# "icon": "pwa-asset-generator logo.png ./src/assets/icons -c -f -w -m ./src/manifest.webmanifest -i ./src/index.html"
+npm run icon
+# "pwa":"npm run build && npx http-server -o -p 8014 -c-1 dist/angular_advanced"
+npm run pwa
+```
+
+## 10-Libs
+
+```bash
+# main workspace generation
+npx @angular/cli@latest new libs14 --create-application false --skip-install true
+
+# apps generation
+ng g app web --minimal --routing --style=css
+ng g app admin --minimal --routing --style=css
+
+#libs generation
+ng g lib ui
+ng g lib api
+
+# compilations
+# "build:ui": "ng build ui"
+# "build:api": "ng build api"
+npm run build:ui
+# "start": "ng serve web",
+npm start
+# watch mode
+# "watch:ui": "ng build ui --watch"
+npm run watch:ui
+# "watch:api": "ng build api --watch"
+npm run watch:api
+
+# publishing (needs npm account)
+"publish:ui": "ng build ui && cd dist/ui && npm publish",
+npm run publish:ui
+```
+
+## 11-StandAlone
+
+```bash
+mkdir rc15
+cd rc15
+npm i @angular/cli@15.0.0-rc.0
+ng new lab15 --minimal
+cd lab15
+npm start
+
+ng g c header
+ng g c home --type=page --skip-selector
+ng g c contact --type=page --skip-selector
+ng g s api
+ng g c users --type=page --skip-selector
 ```
