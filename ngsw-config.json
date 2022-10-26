@@ -28,5 +28,35 @@
       }
     }
   ],
-  "dataGroups": []
+  "dataGroups": [
+    {
+      "name": "stable-cache-first",
+      "urls": ["http://localhost:3000/agencies"],
+      "cacheConfig": {
+        "strategy": "performance",
+        "maxAge": "1d",
+        "maxSize": 10
+      }
+    },
+    {
+      "name": "dynamic-network-first",
+      "urls": ["http://localhost:3000/trips"],
+      "cacheConfig": {
+        "strategy": "freshness",
+        "timeout": "10s",
+        "maxAge": "1h",
+        "maxSize": 10
+      }
+    },
+    {
+      "name": "stale-while-revalidate",
+      "cacheConfig": {
+        "strategy": "freshness",
+        "timeout": "0u",
+        "maxAge": "1h",
+        "maxSize": 10
+      },
+      "urls": ["http://localhost:3000/bookings"]
+    }
+  ]
 }

@@ -102,6 +102,27 @@
       "appVersion": 14,
       "category": "log",
       "id": 3
+    },
+    {
+      "timestamp": "2022-10-26T16:05:21.163Z",
+      "message": "AppModule constructor",
+      "appVersion": 14,
+      "category": "log",
+      "id": 4
+    },
+    {
+      "timestamp": "2022-10-26T16:06:06.724Z",
+      "message": "AppModule constructor",
+      "appVersion": 14,
+      "category": "log",
+      "id": 5
+    },
+    {
+      "timestamp": "2022-10-26T16:27:21.833Z",
+      "message": "AppModule constructor",
+      "appVersion": 14,
+      "category": "log",
+      "id": 6
     }
   ]
 }
